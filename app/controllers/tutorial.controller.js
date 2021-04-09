@@ -56,6 +56,23 @@ exports.findOne = (req, res) => {
   });
 };
 
+// Find a single Tutorial with a tutorialTitle
+exports.findTitle = (req, res) => {
+  Tutorial.findByTitle(req.params.tutorialTitle, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Tutorial with title ${req.params.tutorialId}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving Tutorial with title " + req.params.tutorialId
+        });
+      }
+    } else res.send(data);
+  });
+};
+
 // Update a Tutorial identified by the tutorialId in the request
 exports.update = (req, res) => {
   // Validate Request
